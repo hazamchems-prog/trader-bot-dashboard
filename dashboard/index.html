@@ -26,24 +26,22 @@
       color: var(--text);
       line-height: 1.45;
       padding: 16px;
-      max-width: 480px;
+      max-width: 430px;
       margin: 0 auto;
       font-size: 15px;
     }
     h1 { font-size: 1.45rem; font-weight: 700; margin-bottom: 4px; }
-    .subtitle { color: var(--muted); font-size: 0.88rem; margin-bottom: 14px; }
+    .subtitle { color: var(--muted); font-size: 0.88rem; margin-bottom: 14px; line-height: 1.35; }
     .subtitle strong { color: var(--red); }
     .badge {
       display: inline-flex; align-items: center; gap: 6px;
       background: #1c2128; border: 1px solid var(--border);
       padding: 6px 12px; border-radius: 999px; font-size: 0.82rem; color: var(--muted);
-      margin-bottom: 20px;
+      margin-bottom: 22px;
     }
     .badge .dot { width: 7px; height: 7px; border-radius: 50%; background: #484f58; }
     .badge strong { color: var(--green); }
-    h2 {
-      font-size: 1.05rem; font-weight: 600; margin: 22px 0 12px;
-    }
+    h2 { font-size: 1.05rem; font-weight: 600; margin: 22px 0 12px; }
     .rules {
       display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px;
     }
@@ -72,6 +70,7 @@
     .card .big { font-size: 1.7rem; font-weight: 700; }
     .card .big.blue { color: var(--blue); }
     .card .big.green { color: var(--green); }
+    .card .big.amber { color: var(--amber); }
     .card .desc { color: var(--muted); font-size: 0.85rem; margin-top: 4px; }
     .trade {
       background: var(--card); border: 1px solid var(--border);
@@ -85,21 +84,20 @@
       padding: 6px 10px; border-radius: 8px; font-size: 0.82rem;
     }
     .level span { color: var(--muted); }
+    .chart-box {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 14px; margin-bottom: 12px;
+    }
+    .chart-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; }
+    .chart-frame {
+      width: 100%; height: 220px; border: none; border-radius: 8px;
+      background: #0d1117;
+    }
     .news-item {
       padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem;
     }
     .news-item:last-child { border-bottom: none; }
     .news-item .time { color: var(--muted); font-size: 0.75rem; margin-bottom: 2px; }
-    .chart-box {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 14px; padding: 14px; margin-bottom: 12px; text-align: center;
-    }
-    .chart-box img { max-width: 100%; border-radius: 8px; margin-top: 8px; }
-    .chart-placeholder {
-      height: 140px; background: #0d1117; border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--muted); font-size: 0.85rem; margin-top: 8px;
-    }
     footer {
       margin-top: 28px; padding-top: 14px; border-top: 1px solid var(--border);
       color: var(--muted); font-size: 0.75rem; text-align: center; line-height: 1.4;
@@ -111,7 +109,7 @@
 <body>
 
   <h1>Trader Bot Dashboard</h1>
-  <p class="subtitle">Max perte hard-capped à <strong>50 €</strong> · Broker cible : MetaTrader 5</p>
+  <p class="subtitle">Max perte hard-capped à <strong>50 €</strong> · Broker cible :<br>MetaTrader 5</p>
 
   <div class="badge">
     <span class="dot"></span>
@@ -126,7 +124,7 @@
     </div>
     <div class="rule">
       <div class="label">Risque / capital</div>
-      <div class="value amber">≤ 10 %</div>
+      <div class="value amber">≤ 1 %</div>
     </div>
     <div class="rule">
       <div class="label">Cash buffer</div>
@@ -156,16 +154,19 @@
     <div class="big blue">Prêt</div>
     <div class="desc">Aucune position ouverte · 0 ordre en attente</div>
   </div>
+
   <div class="card">
     <div class="label">Portefeuille (simulé)</div>
     <div class="big">0 €</div>
     <div class="desc">Cash buffer actif · Prêt à recevoir des targets</div>
   </div>
+
   <div class="card">
     <div class="label">Dernière action</div>
     <div class="big amber">—</div>
     <div class="desc">Config initialisée · 15 nov 2026</div>
   </div>
+
   <div class="card">
     <div class="label">Risque exposé</div>
     <div class="big green">0 €</div>
@@ -173,21 +174,20 @@
   </div>
 
   <h2>Analyse marché (15–16 nov 2026) & idées de trade à faible risque</h2>
-  <p style="color:var(--muted);font-size:0.88rem;margin-bottom:14px;">
-    Contexte : USD fort (CPI chaud + yields > 5 %), EUR/USD autour de 1.10, or sous pression (~3870 $), biais dollar haussier à court terme.
-    Toutes les idées sont dimensionnées pour <strong style="color:var(--text)">ne jamais risquer plus de 50 €</strong>.
+  <p style="color:var(--muted);font-size:0.88rem;margin-bottom:14px;line-height:1.4;">
+    Contexte : USD fort (CPI chaud + yields > 5 %), EUR/USD autour de 1.10, or sous pression (~3870 $), biais dollar haussier à court terme. Toutes les idées ci-dessous sont dimensionnées pour <strong style="color:var(--text)">ne jamais risquer plus de 50 €</strong>.
   </p>
 
   <div class="trade">
-    <h3>1. EUR/USD — Short</h3>
-    <div class="meta">Continuation USD fort · R:R ≥ 1:1.5</div>
+    <h3>1. EUR/USD — Short (continuation USD fort)</h3>
+    <div class="meta">Bias baissier tant que sous 1.1090–1.1100 · R:R cible ≥ 1:1.5</div>
     <div class="levels">
-      <div class="level"><span>Entrée</span> 1.1050–1.1080</div>
-      <div class="level"><span>SL</span> 1.1125</div>
+      <div class="level"><span>Entrée</span> ~1.1050 – 1.1080</div>
+      <div class="level"><span>Stop</span> 1.1125</div>
       <div class="level"><span>TP1</span> 1.1000</div>
       <div class="level"><span>TP2</span> 1.0935</div>
     </div>
-    <p style="font-size:0.88rem;"><strong>Lot :</strong> <code>0.08–0.09</code> (risque ~40–45 €)</p>
+    <p style="font-size:0.88rem;">Lot recommandé : <code>0.08–0.09</code> (risque ~40–45 €)</p>
   </div>
 
   <div class="trade">
@@ -195,11 +195,11 @@
     <div class="meta">Sterling faible vs USD</div>
     <div class="levels">
       <div class="level"><span>Entrée</span> 1.3250–1.3280</div>
-      <div class="level"><span>SL</span> 1.3330</div>
+      <div class="level"><span>Stop</span> 1.3330</div>
       <div class="level"><span>TP1</span> 1.3150</div>
       <div class="level"><span>TP2</span> 1.3000</div>
     </div>
-    <p style="font-size:0.88rem;"><strong>Lot :</strong> <code>0.07–0.08</code></p>
+    <p style="font-size:0.88rem;">Lot recommandé : <code>0.07–0.08</code></p>
   </div>
 
   <div class="trade">
@@ -207,10 +207,10 @@
     <div class="meta">Yields élevés = vent contraire</div>
     <div class="levels">
       <div class="level"><span>Entrée</span> 3900–3920</div>
-      <div class="level"><span>SL</span> 3960–3980</div>
+      <div class="level"><span>Stop</span> 3960–3980</div>
       <div class="level"><span>TP1</span> 3850</div>
     </div>
-    <p style="font-size:0.88rem;"><strong>Lot max :</strong> <code>0.01</code></p>
+    <p style="font-size:0.88rem;">Lot max : <code>0.01</code></p>
   </div>
 
   <div class="trade">
@@ -218,25 +218,33 @@
     <div class="meta">Biais dollar + risque intervention BoJ</div>
     <div class="levels">
       <div class="level"><span>Entrée</span> 159.20–159.50</div>
-      <div class="level"><span>SL</span> 158.60</div>
+      <div class="level"><span>Stop</span> 158.60</div>
       <div class="level"><span>TP1</span> 160.50</div>
       <div class="level"><span>TP2</span> 161.50</div>
     </div>
-    <p style="font-size:0.88rem;"><strong>Lot :</strong> <code>0.08–0.10</code></p>
+    <p style="font-size:0.88rem;">Lot recommandé : <code>0.08–0.10</code></p>
   </div>
 
-  <h2>Graphiques (aperçu)</h2>
+  <h2>Graphiques en direct</h2>
+
   <div class="chart-box">
-    <div style="font-size:0.9rem;font-weight:600;">EUR/USD · H1</div>
-    <div class="chart-placeholder">Graphique EURUSD en cours de chargement…</div>
+    <div class="chart-title">EUR/USD · H1</div>
+    <iframe class="chart-frame" src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_eurusd&symbol=FX%3AEURUSD&interval=60&hidesidetoolbar=1&symboledit=0&saveimage=0&toolbarbg=0d1117&studies=%5B%5D&theme=dark&style=1&timezone=Europe%2FParis&withdateranges=0&hideideas=1&hidevolume=1&hidetoptoolbar=1" allowtransparency="true"></iframe>
   </div>
+
   <div class="chart-box">
-    <div style="font-size:0.9rem;font-weight:600;">XAU/USD (Or) · H1</div>
-    <div class="chart-placeholder">Graphique Or en cours de chargement…</div>
+    <div class="chart-title">XAU/USD (Or) · H1</div>
+    <iframe class="chart-frame" src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_xauusd&symbol=OANDA%3AXAUUSD&interval=60&hidesidetoolbar=1&symboledit=0&saveimage=0&toolbarbg=0d1117&studies=%5B%5D&theme=dark&style=1&timezone=Europe%2FParis&withdateranges=0&hideideas=1&hidevolume=1&hidetoptoolbar=1" allowtransparency="true"></iframe>
   </div>
+
   <div class="chart-box">
-    <div style="font-size:0.9rem;font-weight:600;">GBP/USD · H1</div>
-    <div class="chart-placeholder">Graphique GBPUSD en cours de chargement…</div>
+    <div class="chart-title">GBP/USD · H1</div>
+    <iframe class="chart-frame" src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_gbpusd&symbol=FX%3AGBPUSD&interval=60&hidesidetoolbar=1&symboledit=0&saveimage=0&toolbarbg=0d1117&studies=%5B%5D&theme=dark&style=1&timezone=Europe%2FParis&withdateranges=0&hideideas=1&hidevolume=1&hidetoptoolbar=1" allowtransparency="true"></iframe>
+  </div>
+
+  <div class="chart-box">
+    <div class="chart-title">USD/JPY · H1</div>
+    <iframe class="chart-frame" src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_usdjpy&symbol=FX%3AUSDJPY&interval=60&hidesidetoolbar=1&symboledit=0&saveimage=0&toolbarbg=0d1117&studies=%5B%5D&theme=dark&style=1&timezone=Europe%2FParis&withdateranges=0&hideideas=1&hidevolume=1&hidetoptoolbar=1" allowtransparency="true"></iframe>
   </div>
 
   <h2>Actualités marché (envoyées au bot)</h2>
@@ -254,7 +262,7 @@
       <div>Or (~3870 $) sous pression. Yields élevés = vent contraire. Surveillance rebond 3900–3920.</div>
     </div>
     <div class="news-item">
-      <div class="time">Semaine du 16–20 nov</div>
+      <div class="time">Semaine 16–20 nov</div>
       <div>Agenda : Retail Sales US + Minutes FOMC. Attention volatilité possible.</div>
     </div>
   </div>
