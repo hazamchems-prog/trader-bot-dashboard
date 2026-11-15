@@ -1,0 +1,18 @@
+{
+  "sec_user_agent": "Hazamchems hazamchems@gmail.com",
+  "paper": true,
+  "cash_buffer_pct": 10,
+  "max_position_pct": 25,
+  "min_order_usd": 10,
+  "max_order_usd": 500,
+  "max_daily_orders": 10,
+  "allow_options": false,
+  "allow_margin": false,
+  "allow_short": false,
+  "allow_crypto": false,
+  "rebalance_band_pct": 5,
+  "blocked_tickers": [],
+  "currency": "EUR",
+  "max_loss_eur": 50,
+  "capital_eur": 500
+}
