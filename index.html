@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>Trader Bot Dashboard</title>
+  <style>
+    :root {
+      --bg: #0c0f14;
+      --card: #161b22;
+      --border: #21262d;
+      --text: #e6edf3;
+      --muted: #8b949e;
+      --green: #3fb950;
+      --red: #f85149;
+      --amber: #d29922;
+      --blue: #58a6ff;
+      --yellow-bg: #2a2108;
+      --yellow-border: #5c4a12;
+      --yellow-text: #e3b341;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+      padding: 16px;
+      max-width: 430px;
+      margin: 0 auto;
+      font-size: 15px;
+    }
+    h1 { font-size: 1.45rem; font-weight: 700; margin-bottom: 4px; }
+    .subtitle { color: var(--muted); font-size: 0.88rem; margin-bottom: 14px; line-height: 1.35; }
+    .subtitle strong { color: var(--red); }
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #1c2128; border: 1px solid var(--border);
+      padding: 6px 12px; border-radius: 999px; font-size: 0.82rem; color: var(--muted);
+      margin-bottom: 22px;
+    }
+    .badge .dot { width: 7px; height: 7px; border-radius: 50%; background: #484f58; }
+    .badge strong { color: var(--green); }
+    h2 { font-size: 1.05rem; font-weight: 600; margin: 22px 0 12px; }
+    .rules {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px;
+    }
+    .rule {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px 10px; text-align: center;
+    }
+    .rule .label { font-size: 0.72rem; color: var(--muted); margin-bottom: 4px; }
+    .rule .value { font-size: 1.15rem; font-weight: 700; }
+    .rule .value.red { color: var(--red); }
+    .rule .value.amber { color: var(--amber); }
+    .rule .value.green { color: var(--green); }
+    .warning {
+      background: var(--yellow-bg); border: 1px solid var(--yellow-border);
+      color: var(--yellow-text); padding: 12px 14px; border-radius: 12px;
+      font-size: 0.86rem; margin-bottom: 18px; line-height: 1.4;
+    }
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 16px; margin-bottom: 12px;
+    }
+    .card .label {
+      font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em;
+      color: var(--muted); margin-bottom: 6px;
+    }
+    .card .big { font-size: 1.7rem; font-weight: 700; }
+    .card .big.blue { color: var(--blue); }
+    .card .big.green { color: var(--green); }
+    .card .big.amber { color: var(--amber); }
+    .card .desc { color: var(--muted); font-size: 0.85rem; margin-top: 4px; }
+    .trade {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 16px; margin-bottom: 12px;
+    }
+    .trade h3 { font-size: 1rem; margin-bottom: 4px; }
+    .trade .meta { color: var(--muted); font-size: 0.82rem; margin-bottom: 10px; }
+    .levels { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+    .level {
+      background: #0d1117; border: 1px solid var(--border);
+      padding: 6px 10px; border-radius: 8px; font-size: 0.82rem;
+    }
+    .level span { color: var(--muted); }
+    .chart-box {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 14px; margin-bottom: 12px;
+    }
+    .chart-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; }
+    .chart-frame {
+      width: 100%; height: 220px; border: none; border-radius: 8px;
+      background: #0d1117;
+    }
+    .news-item {
+      padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem;
+    }
+    .news-item:last-child { border-bottom: none; }
+    .news-item .time { color: var(--muted); font-size: 0.75rem; margin-bottom: 2px; }
+    footer {
+      margin-top: 28px; padding-top: 14px; border-top: 1px solid var(--border);
+      color: var(--muted); font-size: 0.75rem; text-align: center; line-height: 1.4;
+    }
+    a { color: var(--blue); text-decoration: none; }
+    code { background: #0d1117; padding: 1px 5px; border-radius: 4px; font-size: 0.84em; }
+  </style>
+</head>
+<body>
+
+  <h1>Trader Bot Dashboard</h1>
+  <p class="subtitle">Max perte hard-capped à <strong>50 €</strong> · Broker cible :<br>MetaTrader 5</p>
+
+  <div class="badge">
+    <span class="dot"></span>
+    Mode paper · SEC User-Agent : <strong>Hazamchems</strong>
+  </div>
+
+  <h2>Règles de risque (non négociables)</h2>
+  <div class="rules">
+    <div class="rule">
+      <div class="label">Perte max / trade</div>
+      <div class="value red">50 €</div>
+    </div>
+    <div class="rule">
+      <div class="label">Risque / capital</div>
+      <div class="value amber">≤ 1 %</div>
+    </div>
+    <div class="rule">
+      <div class="label">Cash buffer</div>
+      <div class="value">10 %</div>
+    </div>
+    <div class="rule">
+      <div class="label">Cap position</div>
+      <div class="value">25 %</div>
+    </div>
+    <div class="rule">
+      <div class="label">Options / Margin / Short</div>
+      <div class="value red">OFF</div>
+    </div>
+    <div class="rule">
+      <div class="label">Paper trading</div>
+      <div class="value green">ON</div>
+    </div>
+  </div>
+
+  <div class="warning">
+    <strong>Règle d’or MT5 :</strong> Lot size = 50 € ÷ (distance stop en pips × valeur d’un pip pour 1 lot).<br>
+    Toujours arrondir à la baisse. Jamais de trade sans Stop Loss défini avant l’entrée.
+  </div>
+
+  <div class="card">
+    <div class="label">Statut bot</div>
+    <div class="big blue">Prêt</div>
+    <div class="desc">Aucune position ouverte · 0 ordre en attente</div>
+  </div>
+
+  <div class="card">
+    <div class="label">Portefeuille (simulé)</div>
+    <div class="big">0 €</div>
+    <div class="desc">Cash buffer actif · Prêt à recevoir des targets</div>
+  </div>
+
+  <div class="card">
+    <div class="label">Dernière action</div>
+    <div class="big amber">—</div>
+    <div class="desc">Config initialisée · 15 nov 2026</div>
+  </div>
+
+  <div class="card">
+    <div class="label">Risque exposé</div>
+    <div class="big green">0 €</div>
+    <div class="desc">Max autorisé : 50 € par trade</div>
+  </div>
+
+  <h2>Analyse marché (15–16 nov 2026) & idées de trade à faible risque</h2>
+  <p style="color:var(--muted);font-size:0.88rem;margin-bottom:14px;line-height:1.4;">
+    Contexte : USD fort (CPI chaud + yields > 5 %), EUR/USD autour de 1.10, or sous pression (~3870 $), biais dollar haussier à court terme. Toutes les idées ci-dessous sont dimensionnées pour <strong style="color:var(--text)">ne jamais risquer plus de 50 €</strong>.
+  </p>
+
+  <div class="trade">
+    <h3>1. EUR/USD — Short (continuation USD fort)</h3>
+    <div class="meta">Bias baissier tant que sous 1.1090–1.1100 · R:R cible ≥ 1:1.5</div>
+    <div class="levels">
+      <div class="level"><span>Entrée</span> ~1.1050 – 1.1080</div>
+      <div class="level"><span>Stop</span> 1.1125</div>
+      <div class="level"><span>TP1</span> 1.1000</div>
+      <div class="level"><span>TP2</span> 1.0935</div>
+    </div>
+    <p style="font-size:0.88rem;">Lot recommandé : <code>0.08–0.09</code> (risque ~40–45 €)</p>
+  </div>
+
+  <div class="trade">
+    <h3>2. GBP/USD — Short</h3>
+    <div class="meta">Sterling faible vs USD</div>
+    <div class="levels">
+      <div class="level"><span>Entrée</span> 1.3250–1.3280</div>
+      <div class="level"><span>Stop</span> 1.3330</div>
+      <div class="level"><span>TP1</span> 1.3150</div>
+      <div class="level"><span>TP2</span> 1.3000</div>
+    </div>
+    <p style="font-size:0.88rem;">Lot recommandé : <code>0.07–0.08</code></p>
+  </div>
+
+  <div class="trade">
+    <h3>3. XAU/USD (Or) — Short</h3>
+    <div class="meta">Yields élevés = vent contraire</div>
+    <div class="levels">
+      <div class="level"><span>Entrée</span> 3900–3920</div>
+      <div class="level"><span>Stop</span> 3960–3980</div>
+      <div class="level"><span>TP1</span> 3850</div>
+    </div>
+    <p style="font-size:0.88rem;">Lot max : <code>0.01</code></p>
+  </div>
+
+  <div class="trade">
+    <h3>4. USD/JPY — Long</h3>
+    <div class="meta">Biais dollar + risque intervention BoJ</div>
+    <div class="levels">
+      <div class="level"><span>Entrée</span> 159.20–159.50</div>
+      <div class="level"><span>Stop</span> 158.60</div>
+      <div class="level"><span>TP1</span> 160.50</div>
+      <div class="level"><span>TP2</span> 161.50</div>
+    </div>
+    <p style="font-size:0.88rem;">Lot recommandé : <code>0.08–0.10</code></p>
+  </div>
+
+  <h2>Graphiques en direct</h2>
+
+  <div class="chart-box">
+    <div class="chart-title">EUR/USD · H1</div>
+    <iframe class="chart-frame" src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_eurusd&symbol=FX%3AEURUSD&interval=60&hidesidetoolbar=1&symboledit=0&saveimage=0&toolbarbg=0d1117&studies=%5B%5D&theme=dark&style=1&timezone=Europe%2FParis&withdateranges=0&hideideas=1&hidevolume=1&hidetoptoolbar=1" allowtransparency="true"></iframe>
+  </div>
+
+  <div class="chart-box">
+    <div class="chart-title">XAU/USD (Or) · H1</div>
+    <iframe class="chart-frame" src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_xauusd&symbol=OANDA%3AXAUUSD&interval=60&hidesidetoolbar=1&symboledit=0&saveimage=0&toolbarbg=0d1117&studies=%5B%5D&theme=dark&style=1&timezone=Europe%2FParis&withdateranges=0&hideideas=1&hidevolume=1&hidetoptoolbar=1" allowtransparency="true"></iframe>
+  </div>
+
+  <div class="chart-box">
+    <div class="chart-title">GBP/USD · H1</div>
+    <iframe class="chart-frame" src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_gbpusd&symbol=FX%3AGBPUSD&interval=60&hidesidetoolbar=1&symboledit=0&saveimage=0&toolbarbg=0d1117&studies=%5B%5D&theme=dark&style=1&timezone=Europe%2FParis&withdateranges=0&hideideas=1&hidevolume=1&hidetoptoolbar=1" allowtransparency="true"></iframe>
+  </div>
+
+  <div class="chart-box">
+    <div class="chart-title">USD/JPY · H1</div>
+    <iframe class="chart-frame" src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_usdjpy&symbol=FX%3AUSDJPY&interval=60&hidesidetoolbar=1&symboledit=0&saveimage=0&toolbarbg=0d1117&studies=%5B%5D&theme=dark&style=1&timezone=Europe%2FParis&withdateranges=0&hideideas=1&hidevolume=1&hidetoptoolbar=1" allowtransparency="true"></iframe>
+  </div>
+
+  <h2>Actualités marché (envoyées au bot)</h2>
+  <div class="card">
+    <div class="news-item">
+      <div class="time">16 nov 2026 · Matin</div>
+      <div>USD reste fort après CPI chaud. Yields 10 ans au-dessus de 5 %. Pression continue sur EUR et or.</div>
+    </div>
+    <div class="news-item">
+      <div class="time">15 nov 2026</div>
+      <div>EUR/USD teste la zone 1.10. Biais baissier tant que sous 1.1090–1.1100.</div>
+    </div>
+    <div class="news-item">
+      <div class="time">15 nov 2026</div>
+      <div>Or (~3870 $) sous pression. Yields élevés = vent contraire. Surveillance rebond 3900–3920.</div>
+    </div>
+    <div class="news-item">
+      <div class="time">Semaine 16–20 nov</div>
+      <div>Agenda : Retail Sales US + Minutes FOMC. Attention volatilité possible.</div>
+    </div>
+  </div>
+
+  <h2>Quand le robot attend ta validation</h2>
+  <div class="warning">
+    1. Tu reçois une <strong>notification Grok</strong> « Proposition de trade – validation requise ».<br>
+    2. Sur le Dashboard, « Statut bot » passe à <strong>En attente de validation</strong>.<br>
+    3. Les détails (paire, lot, SL, TP) apparaissent.<br><br>
+    Tant que tu n’as pas dit « oui », <strong>aucun ordre n’est placé</strong> sur MT5.
+  </div>
+
+  <footer>
+    Ce dashboard et les idées ne constituent pas un conseil financier.<br>
+    Tu es seul responsable de tes décisions. Perte max : 50 € par trade.<br>
+    Capital 500 € · Mode paper · 16 nov 2026
+  </footer>
+
+</body>
+</html>
